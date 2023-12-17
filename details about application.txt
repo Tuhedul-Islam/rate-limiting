@@ -1,0 +1,19 @@
+In route files,
+//->middleware(['throttle:2,2'])
+//->middleware(['throttle:api'])
+//->middleware(['throttle:web'])
+//->middleware(['throttle:custom_name'])
+
+In RouteServiceProvider custom rate limiting,
+RateLimiter::for('custom_name', function (Request $request) {
+            /*if (app()->isLocal()){
+                return; //no limit
+            }*/
+            return Limit::perMinute(60)->by(optional($request->user())->id ?: $request->ip());
+        });
+
+
+In HTTP/karnel web/api,
+'throttle:api',
+or
+'throttle:2,2',
